@@ -27,7 +27,11 @@
 extern uint32_t OPENSSL_armcap_P;
 
 void OPENSSL_cpuid_setup(void) {
-  unsigned long hwcap = getauxval(AT_HWCAP);
+#if defined(__linux__)
+   unsigned long hwcap = getauxval(AT_HWCAP);
+#elif defined(__FreeBSD__)
+  unsigned long hwcap = elf_aux_info(AT_HWCAP, &hwcap, sizeof(hwcap));
+#endif
 
   // See /usr/include/asm/hwcap.h on an aarch64 installation for the source of
   // these values.
