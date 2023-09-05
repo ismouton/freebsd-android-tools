@@ -14,7 +14,7 @@
 
 #include <openssl/cpu.h>
 
-#if defined(OPENSSL_AARCH64) && defined(OPENSSL_LINUX) && \
+#if defined(OPENSSL_AARCH64) && \
     !defined(OPENSSL_STATIC_ARMCAP)
 
 #include <sys/auxv.h>
