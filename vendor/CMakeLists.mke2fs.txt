@@ -113,6 +113,17 @@ add_executable("${ANDROID_MKE2FS_NAME}"
 	e2fsprogs/misc/util.c)
 
 target_link_libraries("${ANDROID_MKE2FS_NAME}"
-	libext2fs libsparse libbase libzip liblog libutil pthread z)
+	libext2fs libsparse libbase libzip liblog libutil Threads::Threads z)
 target_include_directories("${ANDROID_MKE2FS_NAME}" PRIVATE
 	e2fsprogs/lib)
+
+include(CheckIncludeFile)
+CHECK_INCLUDE_FILE("sys/types.h" HAVE_SYS_TYPES_H)
+
+add_executable(ext2simg
+	e2fsprogs/contrib/android/ext2simg.c)
+
+target_link_libraries(ext2simg
+	libext2fs libsparse libbase libzip liblog libutil z pthread)
+target_include_directories(ext2simg PRIVATE
+	e2fsprogs/lib core/libsparse/include)
